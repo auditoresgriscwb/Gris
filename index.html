@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GRIS</title>
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    background:black;
+}
+.letra{
+    position:absolute;
+    color:white;
+    font-size:150px;
+    font-weight:bold;
+    font-family:Arial;
+}
+</style>
+</head>
+<body>
+
+<div class="letra">G</div>
+<div class="letra">R</div>
+<div class="letra">I</div>
+<div class="letra">S</div>
+
+<script>
+const letras = document.querySelectorAll('.letra');
+
+const itens = [...letras].map(l => ({
+    el:l,
+    x:Math.random()*800,
+    y:Math.random()*400,
+    dx:(Math.random()*4)+2,
+    dy:(Math.random()*4)+2
+}));
+
+function mover(){
+
+    itens.forEach(a=>{
+
+        a.x += a.dx;
+        a.y += a.dy;
+
+        if(a.x < 0 || a.x > window.innerWidth-120)
+            a.dx *= -1;
+
+        if(a.y < 0 || a.y > window.innerHeight-150)
+            a.dy *= -1;
+
+        a.el.style.left = a.x + "px";
+        a.el.style.top = a.y + "px";
+    });
+
+    for(let i=0;i<itens.length;i++){
+        for(let j=i+1;j<itens.length;j++){
+
+            let a = itens[i];
+            let b = itens[j];
+
+            let dx = a.x-b.x;
+            let dy = a.y-b.y;
+
+            if(Math.sqrt(dx*dx+dy*dy) < 120){
+                a.dx *= -1;
+                a.dy *= -1;
+                b.dx *= -1;
+                b.dy *= -1;
+            }
+        }
+    }
+
+    requestAnimationFrame(mover);
+}
+
+mover();
+</script>
+
+</body>
+</html>
